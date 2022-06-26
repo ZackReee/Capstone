@@ -1,12 +1,8 @@
 from flask import Flask, redirect, url_for, render_template, request
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=["POST", "GET"])
 def index():
-    return render_template('login.html')
-
-@app.route('/login', methods=["POST", "GET"])
-def login():
     if request.method == "POST":
         print("HELLO WORLD")
         user = request.form["nric_input"]
@@ -15,22 +11,16 @@ def login():
         print("Not working")
         return render_template('login.html')
 
-@app.route('/test', methods=["POST", "GET"])
-def test():
-    if request.method == "POST":
-        print("HELLO WORLD")
-        # user = request.form["test"]
-        # return redirect(url_for("pos_ui", nric=user))
-        return("<h1>Welcome user</h1>")
-    else:
-        print("Not working")
-        return render_template('test.html')
-
 
 @app.route('/posui<nric>', methods=["POST", "GET"])
 def pos_ui(nric):
-    # return render_template('posui.html')
-    return f"<h1> {nric} </h1>"
+    return render_template('posui.html', nric=nric)
+
+        
+# @app.route('/test_out<t_arg>')
+# def test_out(t_arg):
+#     return render_template('testoutput.html', tst=t_arg)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
