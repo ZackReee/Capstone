@@ -1,6 +1,12 @@
 from flask import Flask, redirect, url_for, render_template, request
 from jinja2 import Undefined
+from flask_sqlalchemy import SQLAlchemy
+
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"]="mysql://root:password@localhost/pos-db"
+db = SQLAlchemy(app)
+
+print(db)
 
 @app.route('/', methods=["POST", "GET"])
 def login():
