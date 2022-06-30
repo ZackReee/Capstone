@@ -1,26 +1,41 @@
 <html>
-<head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<title>Login Page</title>
-</head>
-<body>
-    <!DOCTYPE html>
-        <div class="container">
-          <div class="pt-5">
-            <div class="form-group col-lg-4 mx-auto border rounded shadow-lg col-xs-3 pt-2">
-              Scan your NRIC to begin
-              <form action="#" method="post">
-              <input type="password" class=" mb-3" id="nric_input" name="nric_input" placeholder="NRIC" minlength="8">
-              <!-- <input type="submit" value="login"> -->
-              <button type="submit" class="btn btn-primary">Submit</button>
 
-            </div>
+  <head>
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous">
+    <title>Login Page</title>
+  </head>
+
+  <body>
+    <!DOCTYPE html>
+    <div class="container">
+      <div class="pt-5">
+        <div class="form-group col-xs-4 mx-auto border rounded shadow-lg pt-2
+          pl-4 pr-4" style="position: absolute; top: 40%; left: 40%;">
+          Scan your NRIC to begin.
+          <form action="#" method="post" id="nric_form">
+            <input type="password" class="mb-3" id="nric_input"
+              name="nric_input" placeholder="NRIC">
+            <!-- <input type="submit" value="login"> -->
+            <button type="submit" class="btn-sm btn-primary" id="login_btn">Submit</button>
           </div>
         </div>
-    <meta charset="utf-8">
+      </div>
+      <meta charset="utf-8">
+      <script src="{{url_for('static', filename='scanner_input.js')}}"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+      <script
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    </body>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-</body>
-</html>
+  </html>
