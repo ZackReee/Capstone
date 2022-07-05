@@ -16,21 +16,42 @@
     <div class="container-fluid border-bottom mt-2">
       <div class="row">
         <div class="col">
-          <p id="posui_nric">{{nric}}</p>
+          <h5 id="posui_nric">{{session['user_nric']}}</h5>
           <script>
             document.getElementById("posui_nric").innerHTML =
               "Welcome " +
               censor_nric(document.getElementById("posui_nric").innerHTML);
           </script>
         </div>
-        <div class="col">Credit Balance: BALANCE PLACEHOLDER</div>
+        <div class="col">
+          <h5>Credit Balance: {{session['user_credit']}}</h5>
+        </div>
         <div class="col">DATE TIME PLACEHOLDER</div>
       </div>
     </div>
     <!-- Main Area Container -->
-    <div class="container-fluid">
+    <div class="container-fluid bg-light">
       <div class="row">
-        <div class="col-9 border"> Main stuff HERE
+        <div class="col-9 border">
+          <div class="row mt-3 d-flex justify-content-center">
+            <div class="col-xs"><h3>Scan Item(s) to add into Cart</h3></div>
+            <div class="col-xs ml-2">
+              <form action="#" method="post" id="barcode_form">
+                <input
+                  type="search"
+                  class="mb-3"
+                  id="barcode_input"
+                  name="barcode_input"
+                  placeholder="Scan your barcode"
+                />
+                <!-- <input type="submit" value="login"> -->
+                <!-- <button type="submit" class="btn-sm btn-primary" id="login_btn">
+                Submit
+              </button> -->
+              <button type="submit" class="btn-sm btn-primary" id="barcode_btn">Submit</button>
+              </form>
+            </div>
+          </div>
           <table class="table">
             <thead>
               <tr>
@@ -60,25 +81,153 @@
                 <td>the Bird</td>
                 <td>@twitter</td>
               </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>FILLER</td>
+                <td>Filler</td>
+                <td>@Filler</td>
+              </tr>
             </tbody>
           </table>
         </div>
-        <div class="col-3 border">CART item summary
+        <div class="col-3 border">
+          CART item summary
           <div class="row" id="one">1</div>
           <div class="row">1</div>
           <div class="row">1</div>
           <div class="row">1</div>
-          <button onclick="btest()" class="btn btn-success"> purchase</button>
+          <button onclick="btest()" class="btn btn-success">purchase</button>
+          <a href="/test">Click me</a>
         </div>
       </div>
-
     </div>
     <meta charset="utf-8" />
-    <script>
-      function btest(){
-        document.getElementById("one").innerHTML="two"
-      }
-    </script>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
