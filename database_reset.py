@@ -1,6 +1,6 @@
 from login import db
 from products import *
-from customers import Customers, create_customers, drop_customers_table
+from customers import Customers, populate_customers, drop_customers_table
 from transactions import Transactions
 
 

@@ -1,247 +1,204 @@
 <html>
-  <head>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous"
-    />
-    <title>Payment Screen</title>
-  </head>
 
-  <body>
-    <!DOCTYPE html>
-    <script src="{{url_for('static', filename='string_censor.js')}}"></script>
-    <!-- Top header container -->
-    <div class="container-fluid border-bottom mt-2">
-      <div class="row">
-        <div class="col">
-          <h5 id="posui_nric">{{session['user_nric']}}</h5>
-          <script>
-            document.getElementById("posui_nric").innerHTML =
-              "Welcome " +
-              censor_nric(document.getElementById("posui_nric").innerHTML);
-          </script>
-        </div>
-        <div class="col">
-          <h5>Credit Balance: {{session['user_credit']}}</h5>
-        </div>
-        <div class="col">DATE TIME PLACEHOLDER</div>
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+  <title>Payment Screen</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.css') }}" />
+</head>
+
+<body>
+  <!DOCTYPE html>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+    integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="{{url_for('static', filename='string_censor.js')}}"></script>
+
+  <!-- Top header container -->
+  <div class="container-fluid mt-2">
+    <div class="row pb-2">
+      <div class="col-xs-3">
+        <h5 id="posui_nric" class="pl-2">{{session['user_nric']}}</h5>
+        <script>
+          document.getElementById("posui_nric").innerHTML =
+            "Welcome " +
+            censor_nric(document.getElementById("posui_nric").innerHTML);
+        </script>
+      </div>
+      <div class="col text-right">
+        <h5>Credit Balance: {{session['user_credit']}}</h5>
+      </div>
+      <div class="col text-right">
+        <h5 id="date_and_time"></h5>
+      </div>
+      <div class="col">
+        <button type="button" style="width: 150px" class="mybutton btn btn-danger float-right" data-toggle="modal"
+          data-target="#logoutModal">
+          Log Out
+        </button>
       </div>
     </div>
-    <!-- Main Area Container -->
-    <div class="container-fluid bg-light">
-      <div class="row">
-        <div class="col-9 border">
-          <div class="row mt-3 d-flex justify-content-center">
-            <div class="col-xs"><h3>Scan Item(s) to add into Cart</h3></div>
-            <div class="col-xs ml-2">
-              <form action="#" method="post" id="barcode_form">
-                <input
-                  type="search"
-                  class="mb-3"
-                  id="barcode_input"
-                  name="barcode_input"
-                  placeholder="Scan your barcode"
-                />
-                <!-- <input type="submit" value="login"> -->
-                <!-- <button type="submit" class="btn-sm btn-primary" id="login_btn">
-                Submit
-              </button> -->
-              <button type="submit" class="btn-sm btn-primary" id="barcode_btn">Submit</button>
-              </form>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logoutModalLabel">
+            Do you want to logout?
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Logging out with remove any items added into your shopping cart.
+          </p>
+          <p>Are you sure you want to log out?</p>
+        </div>
+        <div class="modal-footer">
+          <form action="/" method="GET" id="logout_form"></form>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Cancel
+          </button>
+          <button type="submit" onclick="logoutnow()" style="width: 150px" class="btn btn-danger">
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Area Container -->
+  <div class="container-fluid bg-light">
+    <div class="row">
+      <div class="col-9 border">
+        <div class="row mt-3 ml-3">
+          <div class="col-xs -3 offset-md-3">
+            <h3>Scan Item(s) to add into Cart</h3>
+          </div>
+          <form action="#" method="post" id="barcode_form">
+            <div class="container">
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column col-9">
+                  <input type="text" class="form-control" id="barcode_input" name="barcode_input"
+                    placeholder="Scan your barcode" />
+                </div>
+                <div class="d-flex flex-column col-6">
+                  <button type="submit" onclick="refocus()" class="mybutton btn btn-primary ml-1 btn-default"
+                    id="barcode_btn">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total Price</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody id="cart_body"></tbody>
+        </table>
+      </div>
+      <div class="col-3 border pt-3">
+        Current Cart Summary
+
+        <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+          viewBox="0 0 16 16">
+          <path
+            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+          />
+        </svg>
+        <span class="badge badge-primary bg-light" style="
+              width: 1px;
+              height: 1px;
+              vertical-align: top;
+              margin-top: -10px;
+              margin-left: -11px;
+              border-radius: 9px;
+            ">
+          <p id="cart_count" class="text-dark" style="font-size: 20px; margin-top: -3px">
+            5
+          </p>
+        </span>
+        <div class="bg-white flex-row border mb-3 mt-2" id="main_summary" style="height: 220px">
+          <div style="height: 100%; width: 100%" class="border">
+            <div class="summary">
+              <div class="row mt-3 mr-2" style="font-size: 24px">
+                <div class="col ml-2">Subtotal</div>
+                <div class="col text-right" id="subtotal_price"></div>
+              </div>
+
+              <div class="row mt-3 mr-2 text-muted ml-1" style="font-size: 18px">
+                <div id="discount_percent" class="col-7 ml-2"></div>
+                <div class="col text-right" id="discounted_price"></div>
+              </div>
+
+              <div class="row mt-1 mr-2 text-muted ml-1" style="font-size: 18px">
+                <div id="tax_percent" class="col-7 ml-2"></div>
+                <div class="col text-right" id="tax_price"></div>
+              </div>
+
+              <div class="row mt-4 mr-2" style="font-size: 24px">
+                <p class="col ml-2">Total Cost</p>
+                <p></p>
+                <div class="col text-right" id="total_price"></div>
+              </div>
             </div>
           </div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total Price</th>
-                <th scope="col">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>FILLER</td>
-                <td>Filler</td>
-                <td>@Filler</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
-        <div class="col-3 border">
-          CART item summary
-          <div class="row" id="one">1</div>
-          <div class="row">1</div>
-          <div class="row">1</div>
-          <div class="row">1</div>
-          <button onclick="btest()" class="btn btn-success">purchase</button>
-          <a href="/test">Click me</a>
+
+        <div class="bg-white flex-row border mb-3" id="new_credit_section" style="height: 200px">
+          <div style="height: 100%; width: 100%" class="border">
+            
+            <div class="summary">
+              <div class="row mt-3 mr-2" style="font-size: 24px">
+                <div class="col ml-2">Subtotal</div>
+                <div class="col text-right" id="subtotal_price"></div>
+              </div>
+
+
+
+
+
+            
+          </div>
+        </div>
+
+        <div class="bg-white flex-row border mb-3" id="pay_area" style="height: 200px">
+          <div style="height: 100%; width: 100%" class="border"></div>
+        </div>
+
+        <div class="row border border-danger" id="payment_area" style="height: 60px">
+          <button onclick="" class="btn-lg btn-success btn-block">
+            purchase
+          </button>
         </div>
       </div>
     </div>
-    <meta charset="utf-8" />
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
-      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+  </div>
+  <meta charset="utf-8" />
+  <script src="{{url_for('static', filename='discount_and_tax.js')}}"></script>
+  <script src="{{url_for('static', filename='posui_functions.js')}}"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>
