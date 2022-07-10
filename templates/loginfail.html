@@ -32,31 +32,33 @@
 
   <!-- d3 prompt -->
   <script>
-    let width = 800,
+    let width = 1200,
       height = 800;
     var svg = d3.select("#svg").attr("width", width).attr("height", height);
 
-    svg
-      .append("text")
-      .attr("x", 385)
-      .attr("y", 540)
-      .style("font-size", 22)
-      .attr("stroke", "white")
-      .style("font-weight", "lighter")
-      .text("Invalid NRIC entered, please try again.");
+    svg.append("text")
+      .attr("x", 290)
+      .attr("y", 620)
+      .style("font-size", 32)
+      .attr("font-weight", "bold")
+      .attr("opacity", "1")
+      .attr("fill", "red")
+      .style("font-weight", "bold")
+      .text("Invalid NRIC entered, please try again");
 
     function show_error() {
-      svg
-        .selectAll("*")
+      svg.selectAll("*")
         .transition()
-        .duration(500)
-        .attr("stroke", "red")
+        .duration(800)
+        .attr("fill", "red")  
+        .attr("opacity", "1")
         .transition()
         .duration(6000)
-        .attr("stroke", "white");
+        .attr("fill", "red")
+        .attr("opacity", "0");
     }
 
-    show_error();
+    // show_error();
   </script>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

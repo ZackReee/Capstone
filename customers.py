@@ -21,7 +21,7 @@ class Customers(db.Model):
 
 
 def populate_customers():
-    u1 = Customers("S9606192G", "Tom", "CPL", "Infantry", 23, 2000.70, "Punggol Field 199D #13-437")
+    u1 = Customers("S9606192G", "Tom", "CPL", "Infantry", 23, 5.70, "Punggol Field 199D #13-437")
     try:
         db.session.add(u1)
         db.session.commit()

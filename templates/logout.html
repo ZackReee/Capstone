@@ -31,25 +31,27 @@
 
   <!-- d3 prompt -->
   <script>
-    let width = 800, height = 800;
+    let width = 1200, height = 800;
     var svg = d3.select("#svg").attr("width", width).attr("height", height);
 
     svg.append("text")
-      .attr("x", 385)
-      .attr("y", 540)
-      .style("font-size", 22)
+      .attr("x", 315)
+      .attr("y", 620)
+      .style("font-size", 32)
       .attr("stroke", "white")
       .style("font-weight", "lighter")
-      .text("Invalid NRIC entered, please try again.");
+      .text("Logout successful, have a nice day!");
 
     function show_logout() {
       svg.selectAll("*")
         .transition()
         .duration(500)
         .attr("stroke", "green")
+        .attr("opacity", "1")
         .transition()
         .duration(6000)
-        .attr("stroke", "white");
+        .attr("stroke", "white")
+        .attr("opacity", "0");
     }
 
     show_logout()

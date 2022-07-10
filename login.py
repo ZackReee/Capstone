@@ -1,4 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request, session, jsonify
+import requests
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from jinja2 import Undefined
@@ -7,6 +8,8 @@ from products import get_product
 from sqlalchemy import create_engine
 from database import *
 import json
+from urllib.parse import urlparse
+from urllib.parse import parse_qs
 
 # TO DO: TRY TO FIX CART CONTENT
 # SESS DONT WORK SO TRY MAYBE GLOBAL VAR
@@ -16,7 +19,7 @@ cart_content = {}
 def login():
     init_session()
     # session = Session()
-    # session["cart_content"] = [{}]
+    # session["cart_content"] = []
     if request.method == "POST":
         print("POST login")
         user = request.form["nric_input"].upper()
@@ -44,7 +47,6 @@ def logout():
         return render_template('logout.html')
     else:
         init_session()
-    # session = Session()
     # session["cart_content"] = [{}]
     if request.method == "POST":
         print("POST login")
@@ -89,6 +91,24 @@ def cart():
 @app.route("/credit")
 def credit():
     return jsonify(session["user_credit"])
+
+@app.route("/purchase")
+def make_purchase():
+    return render_template("purchase.html")
+
+@app.route("/remove", methods=["POST", "GET"])
+def remove():
+    if request.method == 'POST':
+        to_remove = request.form["t_val"]
+        indi_cost = cart_content[to_remove]["t_price"]/cart_content[to_remove]["qty"]
+        cart_content[to_remove]["qty"] -= 1
+        cart_content[to_remove]["t_price"] = indi_cost *  cart_content[to_remove]["qty"]
+        if(cart_content[to_remove]["qty"] <=0):
+            cart_content.pop(to_remove)
+        session["cart_content"] = cart_content
+        return redirect(url_for("pos_ui"))
+    else:
+        redirect(url_for("cart"))
         
 
 def add_to_cart(obj):
