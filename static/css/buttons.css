@@ -14,3 +14,7 @@ h1 {
     margin-left: 10px;
     margin-top: 5px;
 }
+
+.bin:hover {
+        fill: rgb(146, 0, 0);
+}

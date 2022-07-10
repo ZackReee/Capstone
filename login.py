@@ -3,7 +3,7 @@ import requests
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from jinja2 import Undefined
-from customers import get_cust_by_nric
+from customers import get_cust_by_nric, deduct_credit
 from products import get_product
 from sqlalchemy import create_engine
 from database import *
@@ -92,9 +92,15 @@ def cart():
 def credit():
     return jsonify(session["user_credit"])
 
-@app.route("/purchase")
+@app.route("/purchase", methods=["POST", "GET"])
 def make_purchase():
-    return render_template("purchase.html")
+    if request.method == "POST":
+        print("PURCHASE CALLED")
+        to_deduct = float(request.form["t_price"])
+        print("OK SO FAR : ", type(session["user_credit"]))
+        session["user_credit"] = float(session["user_credit"]) - to_deduct
+        deduct_credit(session["user_nric"], to_deduct)
+        return render_template("purchase.html")
 
 @app.route("/remove", methods=["POST", "GET"])
 def remove():

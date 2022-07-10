@@ -16,24 +16,27 @@
 
   <!-- Top header container -->
   <div class="container-fluid mt-2">
-    <div class="row pb-2">
+    <div class="row">
       <div class="col-xs-3">
-        <h5 id="posui_nric" class="pl-2">{{session['user_nric']}}</h5>
+        <h5 id="posui_nric" class="pl-3 pt-2">{{session['user_nric']}}</h5>
         <script>
           document.getElementById("posui_nric").innerHTML =
             "Welcome " +
             censor_nric(document.getElementById("posui_nric").innerHTML);
         </script>
       </div>
-      <div class="col text-right">
-        <h5>Credit Balance: {{session['user_credit']}}</h5>
+      <div class="col text-right pt-2" style="left:-4%">
+        <h5>Credit Balance: ${{session['user_credit']}}</h5>
       </div>
-      <div class="col text-right">
+      <div class="col text-right pt-2" style="left:4%">
+        <h5>172 Ang Mo Kio Ave 8, POS Machine 1</h5>
+      </div>
+      <div class="col text-right pt-2" style="left:4%">
         <h5 id="date_and_time"></h5>
       </div>
-      <div class="col">
-        <button type="button" style="width: 150px" class="mybutton btn btn-danger float-right rounded" data-toggle="modal"
-          data-target="#logoutModal">
+      <div class="col" style="top:-4px;">
+        <button type="button" style="width: 150px" class="mybutton btn-lg btn-danger float-right rounded"
+          data-toggle="modal" data-target="#logoutModal">
           Log Out
         </button>
       </div>
@@ -126,15 +129,14 @@
               margin-left: -11px;
               border-radius: 9px;
             ">
-          <p id="cart_count" class="text-dark" style="font-size: 20px; margin-top: -3px">
-            5
+          <p id="cart_count" class="text-primary" style="font-size: 20px; margin-top: -3px">
           </p>
         </span>
         <div class="bg-white flex-row border mb-3 mt-2" id="main_summary" style="height: 220px">
           <div style="height: 100%; width: 100%" class="border">
             <div class="summary">
               <div class="row mt-3 mr-2" style="font-size: 24px">
-                <div class="col ml-2">Subtotal</div>
+                <div class="col ml-2">Sub-total</div>
                 <div class="col text-right" id="subtotal_price"></div>
               </div>
 
@@ -149,7 +151,7 @@
               </div>
 
               <div class="row mt-4 mr-2" style="font-size: 24px">
-                <p class="col ml-2">Total Cost</p>
+                <p class="col ml-2">Grand Total</p>
                 <p></p>
                 <div class="col text-right" id="total_price"></div>
               </div>
@@ -176,21 +178,25 @@
         </div>
 
         <div class="row" id="payment_area" style="height: 60px">
-          
 
           <div style="height: 60px; width: 478px; padding-left: 18px; padding-right: 18px;">
-            <button id="purchase_button" onclick="TEST()" style="font-size:32px;" class="btn-xs rounded btn-success btn-block">
+            <button id="purchase_button" onclick="make_purchase()" style="font-size:32px;"
+              class="btn-xs rounded btn-success btn-block">
               Purchase
-            </button></div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <form action="/logout" method="GET" id="logout_form"></form>
-          
-          <form action="/remove" method="POST" id="remove_item_form">
-            <input type ="hidden" id="t_val" name="t_val" value="">
-          </form>
+  <form action="/remove" method="POST" id="remove_item_form">
+    <input type="hidden" id="t_val" name="t_val" value="">
+  </form>
+  <form action="/purchase" method="POST" id="purchase_form">
+    <input type="hidden" id="t_price" name="t_price" value="">
+  </form>
+  </form>
 
   <meta charset="utf-8" />
   <script src="{{url_for('static', filename='discount_and_tax.js')}}"></script>

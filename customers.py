@@ -38,3 +38,12 @@ def drop_customers_table():
 def get_cust_by_nric(n):
     u = Customers.query.filter_by(nric=n).first()
     return u
+
+
+def deduct_credit(identity, val):
+    u = Customers.query.filter_by(nric=identity).first()
+    cred_f = float(u.credit)
+    cred_f -= val
+    print ("new val =", cred_f)
+    u.credit = cred_f
+    db.session.commit()
