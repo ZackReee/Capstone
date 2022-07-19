@@ -16,7 +16,7 @@ class Products(db.Model):
         self.name = name
         self.price = price
         self.category_id = cat
-        self. barcode= bar
+        self.barcode= bar
         self.description = desc
 
 def populate_products():

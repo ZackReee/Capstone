@@ -10,6 +10,7 @@ from database import *
 import json
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
+import math
 
 # TO DO: TRY TO FIX CART CONTENT
 # SESS DONT WORK SO TRY MAYBE GLOBAL VAR
@@ -23,6 +24,8 @@ def login():
     if request.method == "POST":
         print("POST login")
         user = request.form["nric_input"].upper()
+        if(request.form["nric_input"].upper() == "ADMIN"):
+            return redirect(url_for("admin"))
         user_result = get_cust_by_nric(user)
         if (user_result != "" and user_result != None):
             session["logged_in"] = True
@@ -47,7 +50,6 @@ def logout():
         return render_template('logout.html')
     else:
         init_session()
-    # session["cart_content"] = [{}]
     if request.method == "POST":
         print("POST login")
         user = request.form["nric_input"].upper()
@@ -95,7 +97,6 @@ def credit():
 @app.route("/purchase", methods=["POST", "GET"])
 def make_purchase():
     if request.method == "POST":
-        print("PURCHASE CALLED")
         to_deduct = float(request.form["t_price"])
         print("OK SO FAR : ", type(session["user_credit"]))
         session["user_credit"] = float(session["user_credit"]) - to_deduct
@@ -129,17 +130,52 @@ def add_to_cart(obj):
     session["cart_content"] = cart_content
     session["buy"] = False
 
+
+# def receipt(obj):
+#     obj_name = obj.name
+#     obj_price = obj.price
+    
+#     if obj_name not in cart_content:
+#         cart_content[obj_name] = {"u_price":obj_price, "qty":1, "t_price": obj_price}
+#     elif obj_name in cart_content:
+#         cart_content[obj_name]["qty"] +=1
+#         cart_content[obj_name]["t_price"] += obj_price
+#     session["cart_content"] = cart_content
+#     session["buy"] = False
+
+@app.route('/discount', methods=["GET", "POST"])
+def discount():
+    if request.method == "POST":
+        # return jsonify(session["discount"])
+        session["discount"] = request.form["d_val"]
+        print("got the form: ", request.form["d_val"])
+        return redirect(url_for("pos_ui"))
+    elif request.method == "GET":
+        # return jsonify(session["discount"])
+        return session["discount"]
+    
+@app.route('/setd<val>', methods=["GET"])
+def set_discount(val):
+    if request.method == "GET":
+        # return jsonify(session["discount"])
+        session["discount"] = val
+        return session["discount"]
+
 def init_session():
     global cart_content 
     cart_content= {}
     session["cart_content"] = {}
     session["user_nric"] = ""
     session["user_name"] = ""
+    session["discount"] = "0.05"
+    session["tax"] = "0.07"
     session["user_vocation"] = ""
     session["user_credit"] = ""
+    
+    
 
 if __name__ == "__main__":
     app.secret_key = 'my secret key'
     app.config['SESSION_TYPE'] = 'filesystem'
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
     # app.run(host="0.0.0.0")

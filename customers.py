@@ -1,4 +1,5 @@
 from database import *
+import math
 class Customers(db.Model):
     __tablename__ = "customers"
     id = db.Column(db.Integer, primary_key=True)
@@ -21,9 +22,11 @@ class Customers(db.Model):
 
 
 def populate_customers():
-    u1 = Customers("S9606192G", "Tom", "CPL", "Infantry", 23, 5.70, "Punggol Field 199D #13-437")
+    u1 = Customers("S9606192G", "Tom", "CPL", "Infantry", 23, 15.70, "Punggol Field 199D #13-437")
+    u2 = Customers("admin", "Jack", "3Sgt", "Infantry", 21, 24.70, "Tekong Street Alpha")
     try:
         db.session.add(u1)
+        db.session.add(u2)
         db.session.commit()
     except:
         print("Duplicate key in database")
@@ -45,5 +48,13 @@ def deduct_credit(identity, val):
     cred_f = float(u.credit)
     cred_f -= val
     print ("new val =", cred_f)
+    cred_f = round_up(cred_f)
     u.credit = cred_f
     db.session.commit()
+    
+def round_up(n):
+    new = "%.2f" % n
+    return(new)
+    # multiplier = 10 ** 2
+    # return math.ceil(n * multiplier) / multiplier
+    

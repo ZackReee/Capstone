@@ -5,6 +5,8 @@ var discounted_amt = 0;
 var tax_amt = 0;
 var total_cost = 0;
 var item_count =0;
+var buy_via_credit = false;
+var remain = 0;
 
 function refocus() {
     document.getElementById("barcode_input").focus()
@@ -92,8 +94,9 @@ function get_user_session() {
 
 function credit_remain(data){
     var current = parseFloat(data)
-    var remain = current - total_cost
-    remain = round_down(remain)
+    remain = current - total_cost
+    remain = Math.round((remain + Number.EPSILON) * 100) / 100
+    remain = add_zeroes(remain)
     document.getElementById("credits_after").innerHTML = "$"+remain
     if(remain < 0){
         // document.getElementById("credits_after").innerHTML = "$0.00"
@@ -101,6 +104,7 @@ function credit_remain(data){
         document.getElementById("purchase_button").style.opacity= 0.5;
         document.getElementById("insufficient_credit_text").innerHTML = "Insufficient Credits. Please pay by cash."
     }
+    checkpayment()
 }
 
 function remove_item(name){
@@ -123,6 +127,47 @@ function escape(htmlStr) {
 function make_purchase() {
     document.getElementById("t_price").value=total_cost
     document.getElementById("purchase_form").submit()   
+}
+
+function select_credit() {
+    buy_via_credit=true
+    document.getElementById("credit_button").style.backgroundColor= "rgba(23, 21, 21, 0.514)";
+    if(item_count != 0 && remain >=0){
+    document.getElementById("purchase_button").disabled = false
+    document.getElementById("purchase_button").style.opacity= 1;
+}
+}
+
+function checkpayment() {
+    if (buy_via_credit){
+        document.getElementById("purchase_button").disabled = false
+        document.getElementById("purchase_button").style.opacity= 1;
+    }
+    else{
+        document.getElementById("purchase_button").disabled = true
+        document.getElementById("purchase_button").style.opacity= 0.5;
+    }
+}
+
+function add_zeroes(num) {
+    num = num.toFixed(Math.max(((num+'').split(".")[1]||"").length, 2));
+    return num;
+    }
+
+
+function get_d_val(){
+   document.getElementById("d_val").value = document.getElementById("d_selector").value
+   document.getElementById("discount_form").submit()
+}
+
+function apply_coupon(){
+    document.getElementById("coupon_modal").style.opacity = 1;
+    setTimeout(function (){
+  
+        // Something you want delayed.
+        get_d_val()
+                  
+      }, 1500);
 }
 
 refocus()

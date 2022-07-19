@@ -14,6 +14,24 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="{{url_for('static', filename='string_censor.js')}}"></script>
 
+  <div id="coupon_modal" class="container-fluid justify-content-center ml-3 border"
+    style="background-color:rgba(0, 194, 0, 0.904); position: absolute; left: 620px; top:300px; z-index: 9; height: 210px; width: 30%; border-radius:25px; opacity: 0;">
+    <div class="row  ">
+      <p class="text-center"
+        style="margin-top:10px; margin-left: 170px; font-size:30px; text-decoration: underline; color:white">Coupon
+        Applied!</p>
+    </div>
+    <div class="row ">
+      <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" fill="white" style="margin-left: 230px;"
+        class="bi bi-check-circle" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+        <path
+          d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+      </svg>
+    </div>
+  </div>
+
+
   <!-- Top header container -->
   <div class="container-fluid mt-2">
     <div class="row">
@@ -35,7 +53,7 @@
         <h5 id="date_and_time"></h5>
       </div>
       <div class="col" style="top:-4px;">
-        <button type="button" style="width: 150px" class="mybutton btn-lg btn-danger float-right rounded"
+        <button type="button" style="width: 150px; font-size: 18px;" class="mybutton btn btn-danger float-right rounded"
           data-toggle="modal" data-target="#logoutModal">
           Log Out
         </button>
@@ -58,7 +76,7 @@
         </div>
         <div class="modal-body">
           <p>
-            Logging out with remove any items added into your shopping cart.
+            Logging out will remove any items added into your shopping cart.
           </p>
           <p>Are you sure you want to log out?</p>
         </div>
@@ -79,18 +97,28 @@
     <div class="row">
       <div class="col-9 border">
         <div class="row mt-3 ml-3">
-          <div class="col-xs -3 offset-md-3">
-            <h3>Scan Item(s) to add into Cart</h3>
+
+
+          <div class="col-xs-3 offset-md-2 pl-3">
+            <div class="row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-upc-scan"
+                viewBox="0 0 16 16">
+                <path
+                  d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5zM3 4.5a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-7zm3 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7z" />
+              </svg>
+              <h3 class="ml-3">Scan item(s) to add into Cart</h3>
+            </div>
+
           </div>
           <form action="#" method="post" id="barcode_form">
-            <div class="container">
+            <div class="container ml-4">
               <div class="d-flex flex-row">
                 <div class="d-flex flex-column col-9">
                   <input type="text" class="form-control" id="barcode_input" name="barcode_input"
                     placeholder="Scan your barcode" />
                 </div>
                 <div class="d-flex flex-column col-6">
-                  <button type="submit" onclick="refocus()" class="mybutton rounded btn btn-primary ml-1 btn-default"
+                  <button type="submit" onclick="refocus()" class="mybutton rounded btn btn-primary btn-default"
                     id="barcode_btn">
                     Submit
                   </button>
@@ -113,15 +141,16 @@
         </table>
       </div>
       <div class="col-3 border pt-3">
-        Current Cart Summary
+        <div class="row ">
+          <div class="col font-weight-bold">Cart Summary
 
-        <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-          viewBox="0 0 16 16">
-          <path
-            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-          />
-        </svg>
-        <span class="badge badge-primary bg-light" style="
+            <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+              viewBox="0 0 16 16">
+              <path
+                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+              />
+            </svg>
+            <span class="badge badge-primary bg-light" style="
               width: 1px;
               height: 1px;
               vertical-align: top;
@@ -129,9 +158,47 @@
               margin-left: -11px;
               border-radius: 9px;
             ">
-          <p id="cart_count" class="text-primary" style="font-size: 20px; margin-top: -3px">
-          </p>
-        </span>
+              <p id="cart_count" class="text-primary" style="font-size: 20px; margin-top: -3px">
+              </p>
+            </span>
+          </div>
+          <div class="col">
+            <a href="" style="position: absolute; right:12px; font-size:20px; margin-top: -8px; margin-right:1px;" class="mybutton rounded btn-sm btn-primary btn-default"
+              data-toggle="modal" data-target="#modalDiscountForm">
+              Apply Coupon</a>
+          </div>
+
+          <div class="modal fade" id="modalDiscountForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header text-center">
+                  <h4 class="modal-title w-100 font-weight-bold">Apply Coupon</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+
+                <select id="d_selector" class="selectpicker ml-2 mx-4 mt-5 mb-5">
+                  <option value=0.07>Grand Opening Sale, No GST! (7% Discount)</option>
+                  <option value=0.22>22-07-22 SALE! (22% Discount)</option>
+                  <option value=0.55>Celebrate NS 55! (55% Discount)</option>
+                </select>
+                <div class="modal-footer d-flex justify-content-center">
+                  <button class="btn btn-default" onclick="apply_coupon()" data-dismiss="modal">Login</button>
+                </div>
+              </div>
+            </div>
+            <form action="/discount" method="POST" id="discount_form">
+              <input type="hidden" id="d_val" name="d_val" value="">
+            </form>
+
+          </div>
+
+        </div>
+
+
         <div class="bg-white flex-row border mb-3 mt-2" id="main_summary" style="height: 220px">
           <div style="height: 100%; width: 100%" class="border">
             <div class="summary">
@@ -174,7 +241,18 @@
         </div>
 
         <div class="bg-white flex-row border mb-3" id="pay_area" style="height: 200px">
-          <div style="height: 100%; width: 100%" class="border"></div>
+          <div style="height: 100%; width: 100%" class="border">
+            <div class="text-center pt-2 font-weight-bold">
+              <p style="color:rgb(185, 0, 0);">Confirm payment with:</p>
+            </div>
+
+            <div id="credit_button" onclick="select_credit()"
+              style="height: 140px; width: 140px;border-radius: 25px; background-color: rgba(223, 223, 223, 0.514); margin-left: 150px; margin-top: 10px;"
+              class="border vertical-align">
+              <p class="text-center mt-5 font-weight-bold" style="font-size: 24px">Credits</p>
+            </div>
+
+          </div>
         </div>
 
         <div class="row" id="payment_area" style="height: 60px">
@@ -195,7 +273,6 @@
   </form>
   <form action="/purchase" method="POST" id="purchase_form">
     <input type="hidden" id="t_price" name="t_price" value="">
-  </form>
   </form>
 
   <meta charset="utf-8" />
