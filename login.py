@@ -1,7 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, session, jsonify
 import requests
 from flask_sqlalchemy import SQLAlchemy
-from flask_session import Session
 from jinja2 import Undefined
 from customers import get_cust_by_nric, deduct_credit
 from products import get_product
@@ -12,20 +11,15 @@ from urllib.parse import urlparse
 from urllib.parse import parse_qs
 import math
 
-# TO DO: TRY TO FIX CART CONTENT
-# SESS DONT WORK SO TRY MAYBE GLOBAL VAR
+app.secret_key = 'my secret key'
+app.config['SESSION_TYPE'] = 'filesystem'
 cart_content = {}
 
 @app.route('/', methods=["POST", "GET"])
 def login():
     init_session()
-    # session = Session()
-    # session["cart_content"] = []
     if request.method == "POST":
-        print("POST login")
         user = request.form["nric_input"].upper()
-        if(request.form["nric_input"].upper() == "ADMIN"):
-            return redirect(url_for("admin"))
         user_result = get_cust_by_nric(user)
         if (user_result != "" and user_result != None):
             session["logged_in"] = True
@@ -175,7 +169,5 @@ def init_session():
     
 
 if __name__ == "__main__":
-    app.secret_key = 'my secret key'
-    app.config['SESSION_TYPE'] = 'filesystem'
     app.run(debug=True, host="0.0.0.0")
     # app.run(host="0.0.0.0")

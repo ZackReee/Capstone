@@ -81,10 +81,10 @@
           <p>Are you sure you want to log out?</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class=" btn-secondary rounded" data-dismiss="modal">
+          <button type="button" class="btn btn-secondary rounded mybutton" data-dismiss="modal">
             Cancel
           </button>
-          <button type="submit" onclick="logoutnow()" style="width: 150px" class="rounded btn-danger">
+          <button type="submit" onclick="logoutnow()" class="mybutton rounded btn btn-danger">
             Logout
           </button>
         </div>
@@ -180,20 +180,23 @@
                 </div>
 
 
-                <select id="d_selector" class="selectpicker ml-2 mx-4 mt-5 mb-5">
+                <select id="d_selector" size="4" class="selectpicker ml-2 mx-4 mt-5 mb-5">
                   <option value=0.07>Grand Opening Sale, No GST! (7% Discount)</option>
                   <option value=0.22>22-07-22 SALE! (22% Discount)</option>
                   <option value=0.55>Celebrate NS 55! (55% Discount)</option>
                 </select>
-                <div class="modal-footer d-flex justify-content-center">
-                  <button class="btn btn-default" onclick="apply_coupon()" data-dismiss="modal">Login</button>
+                <div class="modal-footer d-flex">
+                  <button type="button" class="btn btn-secondary rounded mybutton" data-dismiss="modal">
+                    Cancel
+                  </button>
+                  <button class="btn btn-primary mybutton" onclick="apply_coupon()" data-dismiss="modal">Confirm</button>
                 </div>
+
               </div>
             </div>
             <form action="/discount" method="POST" id="discount_form">
               <input type="hidden" id="d_val" name="d_val" value="">
             </form>
-
           </div>
 
         </div>

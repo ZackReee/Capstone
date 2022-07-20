@@ -4,7 +4,7 @@ var sub_total = 0;
 var discounted_amt = 0;
 var tax_amt = 0;
 var total_cost = 0;
-var item_count =0;
+var item_count = 0;
 var buy_via_credit = false;
 var remain = 0;
 
@@ -18,44 +18,43 @@ function get_cart_session() {
         .then(data => {
             console.log("I HAVE DATA: ", data)
             makeTable(data)
-          });
+        });
 }
 
-function makeTable(dt){
+function makeTable(dt) {
     mytable = document.getElementById("cart_body")
     console.log(dt)
     var row = ''
     var iter = 1
-    for(var i in dt){
+    for (var i in dt) {
         console.log(i)
         row += `<tr>
                     <th scope="row">${iter}</th>
                     <td>${i}</td>
                     <td>${dt[i]["qty"]}</td>
                     <td>${dt[i]["t_price"]}</td>
-                    <td><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red" class="bi bi-trash ml-2 bin" viewBox="0 0 16 16" onclick="remove_item(${iter-1})">
+                    <td><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red" class="bi bi-trash ml-2 bin" viewBox="0 0 16 16" onclick="remove_item(${iter - 1})">
                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                     <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                   </svg></td>
                 </tr>`
         iter += 1;
         console.log("What is :", dt[i]["t_price"])
-        sub_total = sub_total+ parseFloat((dt[i]["t_price"]))
+        sub_total = sub_total + parseFloat((dt[i]["t_price"]))
         item_count += dt[i]["qty"];
     }
     fill_summary();
     mytable.innerHTML = row;
 }
 
-function show_time(){
-    var now = new Date();   
+function show_time() {
+    var now = new Date();
     // moment(now).format("Do MMMM YYYY, h:mm A")
     dateplace = document.getElementById("date_and_time")
     dateplace.innerHTML = moment(now).format("h:mm A, Do MMMM YYYY");
 }
 
-function fill_summary()
-{
+function fill_summary() {
     discounted_amt = sub_total * discount
     tax_amt = sub_total * tax
     total_cost = sub_total - discounted_amt + tax_amt
@@ -65,20 +64,20 @@ function fill_summary()
     tax_amt = round_down(tax_amt)
     total_cost = round_down(total_cost)
 
-    if (total_cost == 0){
+    if (total_cost == 0) {
         document.getElementById("purchase_button").disabled = true
-        document.getElementById("purchase_button").style.opacity= 0.5;
+        document.getElementById("purchase_button").style.opacity = 0.5;
     }
 
-    document.getElementById("subtotal_price").innerHTML = "$"+sub_total
-    document.getElementById("discounted_price").innerHTML = "$"+discounted_amt
-    document.getElementById("tax_price").innerHTML = "$"+tax_amt
-    document.getElementById("total_price").innerHTML = "$"+total_cost
+    document.getElementById("subtotal_price").innerHTML = "$" + sub_total
+    document.getElementById("discounted_price").innerHTML = "$" + discounted_amt
+    document.getElementById("tax_price").innerHTML = "$" + tax_amt
+    document.getElementById("total_price").innerHTML = "$" + total_cost
     document.getElementById("cart_count").innerHTML = item_count
     get_user_session()
 }
 
-function round_down(num){
+function round_down(num) {
     var n = Math.floor((num) * 100) / 100
     const rounded = parseFloat(n).toFixed(2);
     return (rounded)
@@ -89,85 +88,91 @@ function get_user_session() {
         .then(response => response.json())
         .then(data => {
             credit_remain(data)
-          });
+        });
 }
 
-function credit_remain(data){
+function credit_remain(data) {
     var current = parseFloat(data)
     remain = current - total_cost
     remain = Math.round((remain + Number.EPSILON) * 100) / 100
     remain = add_zeroes(remain)
-    document.getElementById("credits_after").innerHTML = "$"+remain
-    if(remain < 0){
+    document.getElementById("credits_after").innerHTML = "$" + remain
+    if (remain < 0) {
         // document.getElementById("credits_after").innerHTML = "$0.00"
         document.getElementById("purchase_button").disabled = true
-        document.getElementById("purchase_button").style.opacity= 0.5;
+        document.getElementById("purchase_button").style.opacity = 0.5;
         document.getElementById("insufficient_credit_text").innerHTML = "Insufficient Credits. Please pay by cash."
     }
     checkpayment()
 }
 
-function remove_item(name){
+function remove_item(name) {
     // get the name of the item then pass it to a form as value, then pass to python function.
     // py will get the item and delete from the cart sess and make a new push to /cart
 
     var n = document.getElementById("cart_body").rows[name].cells[1].innerHTML
     var clean_str = escape(n)
-    document.getElementById("t_val").value=clean_str
+    document.getElementById("t_val").value = clean_str
     document.getElementById("remove_item_form").submit()
 }
 
-function logoutnow(){
+function logoutnow() {
     document.getElementById("logout_form").submit()
 }
 
 function escape(htmlStr) {
-    return htmlStr.replace("&amp;", "&")}
+    return htmlStr.replace("&amp;", "&")
+}
 
 function make_purchase() {
-    document.getElementById("t_price").value=total_cost
-    document.getElementById("purchase_form").submit()   
+    document.getElementById("t_price").value = total_cost
+    document.getElementById("purchase_form").submit()
 }
 
 function select_credit() {
-    buy_via_credit=true
-    document.getElementById("credit_button").style.backgroundColor= "rgba(23, 21, 21, 0.514)";
-    if(item_count != 0 && remain >=0){
-    document.getElementById("purchase_button").disabled = false
-    document.getElementById("purchase_button").style.opacity= 1;
-}
+    buy_via_credit = true
+    document.getElementById("credit_button").style.backgroundColor = "rgba(23, 21, 21, 0.514)";
+    if (item_count != 0 && remain >= 0) {
+        document.getElementById("purchase_button").disabled = false
+        document.getElementById("purchase_button").style.opacity = 1;
+    }
 }
 
 function checkpayment() {
-    if (buy_via_credit){
+    if (buy_via_credit) {
         document.getElementById("purchase_button").disabled = false
-        document.getElementById("purchase_button").style.opacity= 1;
+        document.getElementById("purchase_button").style.opacity = 1;
     }
-    else{
+    else {
         document.getElementById("purchase_button").disabled = true
-        document.getElementById("purchase_button").style.opacity= 0.5;
+        document.getElementById("purchase_button").style.opacity = 0.5;
     }
 }
 
 function add_zeroes(num) {
-    num = num.toFixed(Math.max(((num+'').split(".")[1]||"").length, 2));
+    num = num.toFixed(Math.max(((num + '').split(".")[1] || "").length, 2));
     return num;
-    }
-
-
-function get_d_val(){
-   document.getElementById("d_val").value = document.getElementById("d_selector").value
-   document.getElementById("discount_form").submit()
 }
 
-function apply_coupon(){
+
+function get_d_val() { 
+    if (document.getElementById("d_selector").value == "") {
+        document.getElementById("d_val").value = 0.05
+    }
+    else {
+        document.getElementById("d_val").value = document.getElementById("d_selector").value
+    }
+    document.getElementById("discount_form").submit()
+}
+
+function apply_coupon() {
     document.getElementById("coupon_modal").style.opacity = 1;
-    setTimeout(function (){
-  
+    setTimeout(function () {
+
         // Something you want delayed.
         get_d_val()
-                  
-      }, 1500);
+
+    }, 1500);
 }
 
 refocus()
