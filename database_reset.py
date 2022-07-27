@@ -14,4 +14,4 @@ populate_products()
 populate_customers()
 populate_transactions()
 
-get_next_t_id()
+# get_next_t_id()

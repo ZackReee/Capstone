@@ -1,4 +1,6 @@
 cls
+cd D:\GitRepositories\Capstone
 set FLASK_APP=login.py
 set FLASK_ENV=development
+venv\Scripts\activate
 flask run

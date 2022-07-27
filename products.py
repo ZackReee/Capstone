@@ -24,11 +24,14 @@ def populate_products():
     p2 = Products("POKKA Premium Milk Tea", 1.60, 1, "8888196303813", "500ml Bottle")
     p3 = Products("POKKA Premium Cappuccino", 1.60, 1, "8888196305916", "500ml Bottle")
     p4 = Products("F&N Blueberry Cranberry, Fruit Tree Fresh", 2.00, 1, "8888200615543", "250ml Bottle")
+    p5 = Products("POKKA Premium Mocha", 1.60, 1, "8888196903211", "500ml Bottle")
+    p6 = Products("POKKA Ice Peach Tea", 2.10, 1, "8888196172419", "1.5litre Bottle")
+    
+    my_products = [p1,p2,p3,p4,p5,p6]
     try:
-        db.session.add(p1)
-        db.session.add(p2)
-        db.session.add(p3)
-        db.session.add(p4)
+        for i in my_products:
+            db.session.add(i)
+
         db.session.commit()
     except:
         print("Duplicate key in database")
@@ -44,5 +47,3 @@ def get_product(barcode):
     p = Products.query.filter_by(barcode=barcode).first()
     print(p, ", ", p.name, ", $", p.price)
     return p
-
-# get_product(12345678)
