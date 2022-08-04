@@ -1,6 +1,6 @@
 import qrcode
 # Link for website
-input_data = "http:127.0.0.1/"
+input_data = "http:127.0.0.1/receipt"
 #Creating an instance of qrcode
 qr = qrcode.QRCode(
         version=1,
