@@ -19,6 +19,7 @@ class Products(db.Model):
         self.barcode= bar
         self.description = desc
 
+# add products in here
 def populate_products():
     p1 = Products("POKKA Premium Milk Coffee", 1.60, 1, "8888196303912", "500ml Bottle")
     p2 = Products("POKKA Premium Milk Tea", 1.60, 1, "8888196303813", "500ml Bottle")
@@ -27,6 +28,7 @@ def populate_products():
     p5 = Products("POKKA Premium Mocha", 1.60, 1, "8888196903211", "500ml Bottle")
     p6 = Products("POKKA Ice Peach Tea", 2.10, 1, "8888196172419", "1.5litre Bottle")
     
+    # include them for the commit in here
     my_products = [p1,p2,p3,p4,p5,p6]
     try:
         for i in my_products:

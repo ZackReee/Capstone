@@ -20,13 +20,16 @@ class Customers(db.Model):
         self.credit = credit
         self.address = address
 
-
+# add customers into here
 def populate_customers():
     u1 = Customers("S1234567G", "Tom", "CPL", "Infantry", 23, 15.70, "Punggol Field 199D #11-437")
     u2 = Customers("S1111111A", "Jack", "3Sgt", "Infantry", 21, 24.70, "Tekong Street 123A")
+    
+    # include them for commit here
+    my_customers = [u1, u2]
     try:
-        db.session.add(u1)
-        db.session.add(u2)
+        for i in my_customers:
+            db.session.add(i)
         db.session.commit()
     except:
         print("Duplicate key in database")
