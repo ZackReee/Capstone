@@ -22,8 +22,8 @@ class Customers(db.Model):
 
 
 def populate_customers():
-    u1 = Customers("S9606192G", "Tom", "CPL", "Infantry", 23, 15.70, "Punggol Field 199D #13-437")
-    u2 = Customers("admin", "Jack", "3Sgt", "Infantry", 21, 24.70, "Tekong Street Alpha")
+    u1 = Customers("S1234567G", "Tom", "CPL", "Infantry", 23, 15.70, "Punggol Field 199D #11-437")
+    u2 = Customers("S1111111A", "Jack", "3Sgt", "Infantry", 21, 24.70, "Tekong Street 123A")
     try:
         db.session.add(u1)
         db.session.add(u2)
